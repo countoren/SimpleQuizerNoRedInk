@@ -36,9 +36,10 @@ namespace SimpleQuizerNoRedInk
             var r = mainParser.Parse(GetQuestions());
             //This part was not fully tested might not work 100%
             Console.WriteLine(
+                string.Join(",",
             r.OrderBy(l => l.Difficulty)
                 .Take(int.Parse(args[0]))
-                .Select(l=> l.QuestionId));
+                .Select(l=> l.QuestionId)));
         }
 
         public static Parser<IEnumerable<CsvLine>> ParseLines()
