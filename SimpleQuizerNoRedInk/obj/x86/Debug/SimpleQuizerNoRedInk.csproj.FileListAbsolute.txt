@@ -1,0 +1,7 @@
+C:\Projects\SimpleQuizerNoRedInk\SimpleQuizerNoRedInk\bin\Debug\SimpleQuizerNoRedInk.exe
+C:\Projects\SimpleQuizerNoRedInk\SimpleQuizerNoRedInk\bin\Debug\SimpleQuizerNoRedInk.pdb
+C:\Projects\SimpleQuizerNoRedInk\SimpleQuizerNoRedInk\bin\Debug\Sprache.dll
+C:\Projects\SimpleQuizerNoRedInk\SimpleQuizerNoRedInk\obj\x86\Debug\SimpleQuizerNoRedInk.csprojResolveAssemblyReference.cache
+C:\Projects\SimpleQuizerNoRedInk\SimpleQuizerNoRedInk\obj\x86\Debug\SimpleQuizerNoRedInk.exe
+C:\Projects\SimpleQuizerNoRedInk\SimpleQuizerNoRedInk\obj\x86\Debug\SimpleQuizerNoRedInk.pdb
+C:\Projects\SimpleQuizerNoRedInk\SimpleQuizerNoRedInk\bin\Debug\questions.csv
