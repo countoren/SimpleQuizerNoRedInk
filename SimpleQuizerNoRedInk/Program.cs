@@ -34,10 +34,14 @@ namespace SimpleQuizerNoRedInk
                 select lines;
 
             var r = mainParser.Parse(GetQuestions());
-
+            //This part was not fully tested might not work 100%
+            Console.WriteLine(
+            r.OrderBy(l => l.Difficulty)
+                .Take(int.Parse(args[0]))
+                .Select(l=> l.QuestionId));
         }
 
-        public static Parser<IEnumerable<NonParsedLine>> ParseLines()
+        public static Parser<IEnumerable<CsvLine>> ParseLines()
         {
             return ParseLine().Many();
         }
@@ -60,7 +64,7 @@ namespace SimpleQuizerNoRedInk
             public static Func<IEnumerable<char>,double> toDouble =
                 cs=> Double.Parse(toString(cs));
 
-        public static Parser<NonParsedLine> ParseLine()
+        public static Parser<CsvLine> ParseLine()
         {
 
 
@@ -73,7 +77,7 @@ namespace SimpleQuizerNoRedInk
                 from questionId in Parse.Numeric.Until(Parse.Char(','))
                 from dif in ParseDif()
                 from _ in Parse.String(Environment.NewLine)
-                select new NonParsedLine
+                select new CsvLine
                            {
                                StrandId = toInt(strandId),
                                StrandName = toString(strandName),
@@ -100,7 +104,7 @@ namespace SimpleQuizerNoRedInk
         }
     }
 
-    public class NonParsedLine
+    public class CsvLine
     {
         public int StrandId;
         public string StrandName;
