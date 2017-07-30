@@ -28,11 +28,12 @@ namespace SimpleQuizerNoRedInk
     {
         static void Main(string[] args)
         {
-            var file = GetQuestions();
-            var restult =
+            var mainParser =
                 from _ in ConsumeHeader()
                 from lines in ParseLines()
                 select lines;
+
+            var r = mainParser.Parse(GetQuestions());
 
         }
 
@@ -41,32 +42,45 @@ namespace SimpleQuizerNoRedInk
             return ParseLine().Many();
         }
 
+        public static Parser<Double> ParseDif()
+        {
+            return
+                from n1 in Parse.Number
+                from dot in Parse.Char('.')
+                from n2 in Parse.Number
+                select toDouble(n1 + dot + n2);
+        }
+
+            public static Func<IEnumerable<char>,string> toString =
+                cs=> new string(cs.ToArray());
+
+            public static Func<IEnumerable<char>,int> toInt =
+                cs=> int.Parse(toString(cs));
+
+            public static Func<IEnumerable<char>,double> toDouble =
+                cs=> Double.Parse(toString(cs));
+
         public static Parser<NonParsedLine> ParseLine()
         {
 
-            Func<IEnumerable<char>,string> toString =
-                cs=> new string(cs.ToArray());
-
-            Func<IEnumerable<char>,int> toInt =
-                cs=> int.Parse(toString(cs));
-
-            Func<IEnumerable<char>,double> toDouble =
-                cs=> Double.Parse(toString(cs));
 
             return
                 from strandId in Parse.Numeric.Until(Parse.Char(','))
                 from strandName in Parse.Letter.Until(Parse.Char(','))
                 from standardId in Parse.Numeric.Until(Parse.Char(','))
-                from standardName in Parse.Letter.Until(Parse.Char(','))
-                from dif in Parse.Numeric.Until(Parse.LineEnd)
-
+                from standardName in Parse.LetterOrDigit.Or(Parse.WhiteSpace)
+                                     .Until(Parse.Char(','))
+                from questionId in Parse.Numeric.Until(Parse.Char(','))
+                from dif in ParseDif()
+                from _ in Parse.String(Environment.NewLine)
                 select new NonParsedLine
                            {
                                StrandId = toInt(strandId),
                                StrandName = toString(strandName),
                                StandardId = toInt(standardId),
                                StandardName = toString(strandName),
-                               Difficulty = toDouble(dif)
+                               QuestionId = toInt(questionId),
+                               Difficulty = dif
                            };
         }
 
@@ -75,6 +89,7 @@ namespace SimpleQuizerNoRedInk
         {
             return Parse.String(
                 @"strand_id,strand_name,standard_id,standard_name,question_id,difficulty"
+                + Environment.NewLine
                 );
         }
 
@@ -91,6 +106,7 @@ namespace SimpleQuizerNoRedInk
         public string StrandName;
         public int StandardId;
         public string StandardName;
+        public int QuestionId;
         public double Difficulty;
     }
 }
